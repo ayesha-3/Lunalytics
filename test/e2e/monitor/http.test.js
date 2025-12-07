@@ -18,10 +18,12 @@ describe('Monitor HTTP - Advance', () => {
     });
 
     it('should show errors for invalid values and create a monitor with valid values', () => {
-      // Alias button for stability
-      cy.get('[class="luna-button primary flat"]', { timeout: 10000 }).as('addMonitorButton');
+      // Ensure the Add Monitor button is visible before interacting
+      cy.get('[class="luna-button primary flat"]', { timeout: 10000 })
+        .should('be.visible')
+        .as('addMonitorButton');
 
-      cy.get('@addMonitorButton').should('be.visible');
+      cy.get('@addMonitorButton').click();
       cy.createMonitor(monitorDetails.http);
     });
   });
@@ -37,24 +39,24 @@ describe('Monitor HTTP - Advance', () => {
       // Click the monitor by its visible name
       cy.contains('.item.item-active div.content div div', monitorDetails.http.name.value)
         .first()
-        .as('monitorItem')
         .should('be.visible')
         .click();
 
-      cy.get('[id="monitor-edit-button"]').as('editButton').should('be.visible').click({ force: true });
+      // Click Edit button
+      cy.get('[id="monitor-edit-button"]')
+        .should('be.visible')
+        .click({ force: true });
 
-      // Append '-Edited' to the existing value
+      // Append '-Edited' to the existing value safely
       cy.get(monitorDetails.http.name.id)
-        .as('nameInput')
         .should('be.visible')
         .invoke('val')
         .then((currentValue) => {
-          cy.typeText('@nameInput' in cy ? '@nameInput' : monitorDetails.http.name.id, `${currentValue}-Edited`);
+          cy.get(monitorDetails.http.name.id).clear().type(`${currentValue}-Edited`, { parseSpecialCharSequences: false });
         });
 
       // Save the monitor
       cy.get('[class="luna-button green flat"]')
-        .as('saveButton')
         .should('be.visible')
         .click();
 
@@ -79,16 +81,16 @@ describe('Monitor HTTP - Advance', () => {
         `${monitorDetails.http.name.value}-Edited`
       )
         .first()
-        .as('monitorItem')
         .should('be.visible')
         .click();
 
       // Click delete
-      cy.get('[id="monitor-delete-button"]').as('deleteButton').should('be.visible').click({ force: true });
+      cy.get('[id="monitor-delete-button"]')
+        .should('be.visible')
+        .click({ force: true });
 
       // Confirm deletion
       cy.get('[id="monitor-delete-confirm-button"]')
-        .as('confirmDelete')
         .should('be.visible')
         .click({ force: true });
 

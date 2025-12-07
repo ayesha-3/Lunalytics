@@ -9,7 +9,7 @@ describe('Monitor HTTP - Advance', () => {
     cy.clearCookies();
     cy.loginUser(email, password);
     cy.visit('/home');
-    cy.get('[class="luna-button-content"]', { timeout: 10000 }).should('be.visible');
+    cy.get('[class="luna-button-content"]', { timeout: 15000 }).should('be.visible');
   };
 
   context('create a monitor with basic information', () => {
@@ -18,13 +18,24 @@ describe('Monitor HTTP - Advance', () => {
     });
 
     it('should show errors for invalid values and create a monitor with valid values', () => {
-      // Ensure the Add Monitor button is visible before interacting
-      cy.get('[class="luna-button primary flat"]', { timeout: 10000 })
+      // Alias Add Monitor button
+      cy.get('[class="luna-button primary flat"]', { timeout: 15000 })
         .should('be.visible')
         .as('addMonitorButton');
 
       cy.get('@addMonitorButton').click();
+
+      // Optionally intercept monitor creation request
+      cy.intercept('POST', '/api/monitors').as('createMonitor');
+
       cy.createMonitor(monitorDetails.http);
+
+      // Wait for server response before proceeding
+      cy.wait('@createMonitor');
+
+      // Assert monitor is created
+      cy.contains('.item.item-active div.content div div', monitorDetails.http.name.value, { timeout: 10000 })
+        .should('be.visible');
     });
   });
 
@@ -35,16 +46,17 @@ describe('Monitor HTTP - Advance', () => {
 
     it('Edit monitor name', () => {
       cy.createMonitor(monitorDetails.http);
+      cy.intercept('PUT', '/api/monitors/*').as('editMonitor');
 
       // Click the monitor by its visible name
-      cy.contains('.item.item-active div.content div div', monitorDetails.http.name.value)
-        .first()
+      cy.contains('.item.item-active div.content div div', monitorDetails.http.name.value, { timeout: 10000 })
         .should('be.visible')
         .click();
 
       // Click Edit button
       cy.get('[id="monitor-edit-button"]')
         .should('be.visible')
+        .as('editButton')
         .click({ force: true });
 
       // Append '-Edited' to the existing value safely
@@ -52,7 +64,9 @@ describe('Monitor HTTP - Advance', () => {
         .should('be.visible')
         .invoke('val')
         .then((currentValue) => {
-          cy.get(monitorDetails.http.name.id).clear().type(`${currentValue}-Edited`, { parseSpecialCharSequences: false });
+          cy.get(monitorDetails.http.name.id)
+            .clear()
+            .type(`${currentValue}-Edited`, { parseSpecialCharSequences: false });
         });
 
       // Save the monitor
@@ -60,12 +74,11 @@ describe('Monitor HTTP - Advance', () => {
         .should('be.visible')
         .click();
 
+      cy.wait('@editMonitor');
+
       // Assert the edited monitor name is visible
-      cy.contains(
-        '.item.item-active div.content div div',
-        `${monitorDetails.http.name.value}-Edited`,
-        { timeout: 10000 }
-      ).should('be.visible');
+      cy.contains('.item.item-active div.content div div', `${monitorDetails.http.name.value}-Edited`, { timeout: 10000 })
+        .should('be.visible');
     });
   });
 
@@ -75,12 +88,10 @@ describe('Monitor HTTP - Advance', () => {
     });
 
     it('Delete monitor', () => {
+      cy.intercept('DELETE', '/api/monitors/*').as('deleteMonitor');
+
       // Click the monitor by its visible name
-      cy.contains(
-        '.item.item-active div.content div div',
-        `${monitorDetails.http.name.value}-Edited`
-      )
-        .first()
+      cy.contains('.item.item-active div.content div div', `${monitorDetails.http.name.value}-Edited`, { timeout: 10000 })
         .should('be.visible')
         .click();
 
@@ -94,12 +105,11 @@ describe('Monitor HTTP - Advance', () => {
         .should('be.visible')
         .click({ force: true });
 
+      cy.wait('@deleteMonitor');
+
       // Assert monitor is removed
-      cy.contains(
-        '.item.item-active div.content div div',
-        `${monitorDetails.http.name.value}-Edited`,
-        { timeout: 10000 }
-      ).should('not.exist');
+      cy.contains('.item.item-active div.content div div', `${monitorDetails.http.name.value}-Edited`, { timeout: 10000 })
+        .should('not.exist');
     });
   });
 });

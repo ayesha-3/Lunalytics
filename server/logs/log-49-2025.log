@@ -1,0 +1,21 @@
+{"level":"notice","message":"SQLITE Database name is not set in config.json, visit http://localhost:2308/setup to setup application","service":"bot","timestamp":1765036216597}
+{"level":"info","message":"Cron Initialising cron jobs","service":"bot","timestamp":1765036216608}
+{"level":"info","message":"Icons have been loaded successfully!","service":"bot","timestamp":1765036217162}
+{"level":"info","message":"Fetching the latest version","service":"bot","timestamp":1765036217166}
+{"level":"notice","message":"Express Initialising routes","service":"bot","timestamp":1765036217200}
+{"level":"notice","message":"Express Server is running on port 2308","service":"bot","timestamp":1765036217215}
+{"level":"error","message":"Failed to check for new versions Invalid argument expected string","service":"bot","stack":"TypeError: Invalid argument expected string\n    at validateAndParse (D:\\Git Projects\\Lunalytics\\node_modules\\compare-versions\\lib\\umd\\index.js:10:19)\n    at compareVersions (D:\\Git Projects\\Lunalytics\\node_modules\\compare-versions\\lib\\umd\\index.js:54:20)\n    at compare (D:\\Git Projects\\Lunalytics\\node_modules\\compare-versions\\lib\\umd\\index.js:94:21)\n    at check (file:///D:/Git%20Projects/Lunalytics/server/utils/checkVersion.js:23:26)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)","timestamp":1765036217815}
+{"level":"notice","message":"SQLITE Database name is not set in config.json, visit http://localhost:2308/setup to setup application","service":"bot","timestamp":1765036781419}
+{"level":"info","message":"Cron Initialising cron jobs","service":"bot","timestamp":1765036781428}
+{"level":"info","message":"Icons have been loaded successfully!","service":"bot","timestamp":1765036782232}
+{"level":"info","message":"Fetching the latest version","service":"bot","timestamp":1765036782238}
+{"level":"notice","message":"Express Initialising routes","service":"bot","timestamp":1765036782275}
+{"level":"notice","message":"Express Server is running on port 2308","service":"bot","timestamp":1765036782292}
+{"level":"error","message":"Failed to check for new versions Invalid argument expected string","service":"bot","stack":"TypeError: Invalid argument expected string\n    at validateAndParse (D:\\Git Projects\\Lunalytics\\node_modules\\compare-versions\\lib\\umd\\index.js:10:19)\n    at compareVersions (D:\\Git Projects\\Lunalytics\\node_modules\\compare-versions\\lib\\umd\\index.js:54:20)\n    at compare (D:\\Git Projects\\Lunalytics\\node_modules\\compare-versions\\lib\\umd\\index.js:94:21)\n    at check (file:///D:/Git%20Projects/Lunalytics/server/utils/checkVersion.js:23:26)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)","timestamp":1765036783473}
+{"level":"notice","message":"SQLITE Database name is not set in config.json, visit http://localhost:2308/setup to setup application","service":"bot","timestamp":1765036924983}
+{"level":"info","message":"Cron Initialising cron jobs","service":"bot","timestamp":1765036924990}
+{"level":"info","message":"Icons have been loaded successfully!","service":"bot","timestamp":1765036925460}
+{"level":"info","message":"Fetching the latest version","service":"bot","timestamp":1765036925464}
+{"level":"notice","message":"Express Initialising routes","service":"bot","timestamp":1765036925488}
+{"level":"notice","message":"Express Server is running on port 2308","service":"bot","timestamp":1765036925497}
+{"level":"error","message":"Failed to check for new versions Invalid argument expected string","service":"bot","stack":"TypeError: Invalid argument expected string\n    at validateAndParse (D:\\Git Projects\\Lunalytics\\node_modules\\compare-versions\\lib\\umd\\index.js:10:19)\n    at compareVersions (D:\\Git Projects\\Lunalytics\\node_modules\\compare-versions\\lib\\umd\\index.js:54:20)\n    at compare (D:\\Git Projects\\Lunalytics\\node_modules\\compare-versions\\lib\\umd\\index.js:94:21)\n    at check (file:///D:/Git%20Projects/Lunalytics/server/utils/checkVersion.js:23:26)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)","timestamp":1765036926109}

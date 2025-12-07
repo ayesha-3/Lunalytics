@@ -1,4 +1,4 @@
-name: Run All Tests - Vitest, Jest & Cypress
+name: Check tests Run All Tests - Vitest, Jest & Cypress
 
 # Trigger this workflow on push and pull requests
 on:

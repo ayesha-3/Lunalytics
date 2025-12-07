@@ -1,0 +1,15 @@
+{
+    "keep": {
+        "days": false,
+        "amount": 7
+    },
+    "auditLog": "D:\\Git Projects\\Lunalytics\\server\\logs\\.a70dcc6a34fcf73681bb046aec71ac894aa3c3be-audit.json",
+    "files": [
+        {
+            "date": 1765036215787,
+            "name": "D:\\Git Projects\\Lunalytics\\server\\logs\\log-49-2025.log",
+            "hash": "1e6f5bf15f0713add7872e9d0e28624261e4714650a845740b74a2bec4f1db2c"
+        }
+    ],
+    "hashType": "sha256"
+}

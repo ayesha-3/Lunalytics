@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="jest tests" tests="9" failures="0" errors="0" time="2.575">
+  <testsuite name="useNotificationForm - full coverage" errors="0" failures="0" skipped="0" timestamp="2025-12-06T13:30:30" time="1.667" tests="9">
+    <testcase classname="useNotificationForm - full coverage" name="should initialize with default values" time="0.026">
+    </testcase>
+    <testcase classname="useNotificationForm - full coverage" name="should reset inputs when values change" time="0.007">
+    </testcase>
+    <testcase classname="useNotificationForm - full coverage" name="should handle input changes" time="0.005">
+    </testcase>
+    <testcase classname="useNotificationForm - full coverage" name="should handle validation error from NotificationValidators" time="0.008">
+    </testcase>
+    <testcase classname="useNotificationForm - full coverage" name="should handle unknown errors gracefully" time="0.015">
+    </testcase>
+    <testcase classname="useNotificationForm - full coverage" name="should submit successfully in create mode" time="0.013">
+    </testcase>
+    <testcase classname="useNotificationForm - full coverage" name="should submit successfully in edit mode" time="0.006">
+    </testcase>
+    <testcase classname="useNotificationForm - full coverage" name="should handle invalid platform" time="0.006">
+    </testcase>
+    <testcase classname="useNotificationForm - full coverage" name="should handle handleError directly" time="0.007">
+    </testcase>
+  </testsuite>
+</testsuites>

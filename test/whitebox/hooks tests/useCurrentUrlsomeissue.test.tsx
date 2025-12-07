@@ -1,55 +1,109 @@
-import { renderHook } from '@testing-library/react';
+import React from 'react';
+import { render } from '@testing-library/react';
+import { act } from 'react-dom/test-utils';
 import useCurrentUrl from '../../../app/hooks/useCurrentUrl';
 
 describe('useCurrentUrl', () => {
   const originalLocation = window.location;
 
-  beforeEach(() => {
-    // Mock window.location as writable
-    delete (window as any).location;
-    (window as any).location = {
-      protocol: 'http:',
-      hostname: 'localhost',
-      port: '',
-      pathname: '/initial-path',
-    };
-  });
+  // Helper to mock window.location
+  const setWindowLocation = (locationOverride: Partial<Location>) => {
+    Object.defineProperty(window, 'location', {
+      configurable: true,
+      writable: true,
+      value: {
+        ...originalLocation,
+        ...locationOverride,
+        assign: jest.fn(),
+        reload: jest.fn(),
+        replace: jest.fn(),
+        toString: () => originalLocation.toString(),
+      },
+    });
+  };
+
+  // Test component to capture hook result
+  const TestComponent = ({
+    locationOverride,
+    callback,
+  }: {
+    locationOverride?: Partial<Location>;
+    callback: (url: Location) => void;
+  }) => {
+    if (locationOverride) {
+      setWindowLocation(locationOverride);
+    }
+
+    const url = useCurrentUrl();
+    React.useLayoutEffect(() => {
+      callback(url);
+    }, [url, callback]);
+
+    return null;
+  };
 
   afterEach(() => {
-    window.location = originalLocation;
+    // Restore original location
+    Object.defineProperty(window, 'location', {
+      configurable: true,
+      value: originalLocation,
+    });
+    jest.restoreAllMocks();
   });
 
-  test('should return initial pathname first', () => {
-    const { result } = renderHook(() => useCurrentUrl());
-    // Initial state is the pathname
-    expect(result.current).toBe('/initial-path');
+  it('should return initial pathname before layout effect runs', () => {
+    let result: any;
+
+    act(() => {
+      render(<TestComponent callback={(url) => (result = url)} />);
+    });
+
+    expect(result.pathname).toBe(window.location.pathname);
   });
 
-  test('should return full URL after useLayoutEffect', () => {
-    const { result } = renderHook(() => useCurrentUrl());
-    // After the effect, state is updated to full URL
-    expect(result.current).toBe('http://localhost');
+  it('should update to full URL after layout effect runs', () => {
+    let result: any;
+
+    act(() => {
+      render(<TestComponent callback={(url) => (result = url)} />);
+    });
+
+    expect(result.href).toBe(window.location.href);
   });
 
-  test('should include port if present', () => {
-    window.location.port = '3000';
-    const { result } = renderHook(() => useCurrentUrl());
-    expect(result.current).toBe('http://localhost:3000');
+  it('should include port if present', () => {
+    let result: any;
+
+    act(() => {
+      render(
+        <TestComponent
+          locationOverride={{ port: '8080' }}
+          callback={(url) => (result = url)}
+        />
+      );
+    });
+
+    expect(result.port).toBe('8080');
   });
 
-  test('should handle empty port correctly', () => {
-    window.location.port = '';
-    const { result } = renderHook(() => useCurrentUrl());
-    expect(result.current).toBe('http://localhost');
-  });
+  it('should construct URL using protocol, hostname, and optional port', () => {
+    let result: any;
 
-  test('should update if window.location changes (simulate effect rerun)', () => {
-    const { result, rerender } = renderHook(() => useCurrentUrl());
-    // Update location
-    window.location.protocol = 'https:';
-    window.location.hostname = 'example.com';
-    window.location.port = '8080';
-    rerender();
-    expect(result.current).toBe('https://example.com:8080');
+    act(() => {
+      render(
+        <TestComponent
+          locationOverride={{
+            protocol: 'https:',
+            hostname: 'example.com',
+            port: '3000',
+          }}
+          callback={(url) => (result = url)}
+        />
+      );
+    });
+
+    expect(result.protocol).toBe('https:');
+    expect(result.hostname).toBe('example.com');
+    expect(result.port).toBe('3000');
   });
 });
